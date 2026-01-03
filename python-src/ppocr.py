@@ -31,18 +31,18 @@ def main():
         sys.exit(1)
 
     try:
-        ocr = PaddleOCR(use_angle_cls=True, lang='en', show_log=False)
+        ocr = PaddleOCR(use_textline_orientation=True, lang='en')
     except Exception as e:
         print(json.dumps({"error": f"Failed to initialize PaddleOCR: {str(e)}"}))
         sys.exit(1)
 
     try:
-        result = ocr.ocr(image_path, cls=True)
+        result = ocr.predict(image_path)
     except Exception as e:
         print(json.dumps({"error": str(e)}))
         sys.exit(1)
 
-    if result is None or len(result) == 0 or result[0] is None:
+    if result is None or len(result) == 0:
         print(json.dumps([]))
         return
 
